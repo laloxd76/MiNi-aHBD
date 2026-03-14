@@ -3,244 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Feliz Cumpleaños Montserrath!</title>
+    <title>Para Montserrath ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        /* FONTO DE PANTALLA TOTAL */
-        body, html {
+        :root {
+            --color-principal: #ffb6c1; /* Rosa pastel Snoopy */
+            --color-acento: #ff4d4d;
+            --color-morado: #9370db;
+        }
+
+        body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Evita scrolls */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff0f5; /* Fondo rosado muy claro */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* CAPA DEL FONDO ILUSTRADO (Escena del árbol) */
-        .background-scene {
+        /* FONDO DE SNOOPY (Imágenes flotantes sutiles) */
+        .snoopy-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Degradado de atardecer relajante */
-            background: linear-gradient(to bottom, #200122, #6f0000); /* Morado oscuro a Rojo atardecer */
-            z-index: -2;
-        }
-
-        /* Dibujo del árbol y pradera (Usando gradientes y formas CSS) */
-        .background-scene::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30vh;
-            background: linear-gradient(to bottom, #1a4d1a, #0d260d); /* Pradera verde oscuro */
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0; /* Curva de la colina */
+            pointer-events: none;
             z-index: -1;
+            opacity: 0.2;
+            background-image: url('https://www.pngarts.com/files/11/Snoopy-Download-Transparent-PNG-Image.png');
+            background-size: 200px;
+            background-repeat: space;
         }
 
-        /* Silueta del Árbol */
-        .tree {
-            position: absolute;
-            bottom: 25vh;
-            right: 15%;
-            width: 100px;
-            height: 300px;
-            background: #2a1b0a; /* Tronco */
-            border-radius: 10px 10px 0 0;
-            z-index: -1;
-        }
-        .tree::after {
-            content: '';
-            position: absolute;
-            top: -120px;
-            left: -100px;
-            width: 300px;
-            height: 250px;
-            background: #143314; /* Hojas oscuras */
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(0,255,100,0.1); /* Brillo sutil */
-        }
-
-        /* Columpio */
-        .swing {
-            position: absolute;
-            top: 150px;
-            left: 20px;
-            width: 80px;
-            height: 100px;
-            border-left: 2px solid #5d4037;
-            border-right: 2px solid #5d4037;
-            border-bottom: 8px solid #8d6e63;
-            transform-origin: top;
-            animation: swinging 3s ease-in-out infinite;
-        }
-
-        @keyframes swinging {
-            0% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-            100% { transform: rotate(-5deg); }
-        }
-
-        /* ANIMACIÓN DE LUCIÉRNAGAS */
-        .fireflies {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        .firefly {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #ff0;
-            animation: drift infinite linear;
-            opacity: 0;
-        }
-
-        /* Crear 10 luciérnagas con CSS */
-        .firefly:nth-child(1) { left: 10%; top: 20%; animation-duration: 10s; animation-delay: 1s; }
-        .firefly:nth-child(2) { left: 30%; top: 50%; animation-duration: 12s; animation-delay: 3s; }
-        .firefly:nth-child(3) { left: 50%; top: 30%; animation-duration: 8s; animation-delay: 5s; }
-        .firefly:nth-child(4) { left: 70%; top: 60%; animation-duration: 14s; animation-delay: 2s; }
-        .firefly:nth-child(5) { left: 85%; top: 40%; animation-duration: 11s; animation-delay: 4s; }
-        .firefly:nth-child(6) { left: 20%; top: 80%; animation-duration: 9s; animation-delay: 0s; }
-        .firefly:nth-child(7) { left: 40%; top: 10%; animation-duration: 13s; animation-delay: 6s; }
-        .firefly:nth-child(8) { left: 60%; top: 70%; animation-duration: 10s; animation-delay: 1s; }
-        .firefly:nth-child(9) { left: 90%; top: 20%; animation-duration: 12s; animation-delay: 3s; }
-        .firefly:nth-child(10) { left: 5%; top: 60%; animation-duration: 8s; animation-delay: 5s; }
-
-        @keyframes drift {
-            0% { transform: translateY(0px) translateX(0px); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
-        }
-
-        /* CONTENIDO PRINCIPAL */
-        .container {
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.15); /* Caja translúcida */
-            padding: 40px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            max-width: 90%;
-            color: white;
+        header {
+            margin-top: 30px;
             text-align: center;
+            animation: bounce 2s infinite;
         }
 
         h1 {
-            font-size: 3.2em;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #ff007f, #ff4d4d); /* Rosa a Rojo */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 15px rgba(255, 0, 127, 0.5);
+            color: var(--color-acento);
+            font-size: 2.5em;
+            text-shadow: 2px 2px white;
         }
 
-        p.chiflada {
-            font-size: 1.8em;
-            color: #e0b0ff; /* Morado claro relajante */
-            font-style: italic;
-            margin-top: 20px;
-            font-weight: bold;
+        /* EL SOBRE DE LA CARTA */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            margin: 50px 0;
+        }
+
+        .envelope {
+            position: relative;
+            width: 250px;
+            height: 150px;
+            background: #f08080;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 125px solid transparent;
+            border-right: 125px solid transparent;
+            border-top: 90px solid #ff9999;
+            transform-origin: top;
+            transition: transform 0.6s;
+            z-index: 2;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 230px;
+            height: 130px;
+            background: white;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.6s;
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .letter p {
+            font-size: 0.9em;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Abrir carta */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+        }
+        .envelope-wrapper.open .letter {
+            transform: translateY(-100px);
+            height: auto;
+            z-index: 3;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* CONTENEDOR DE FOTOS (Oculto al inicio) */
+        #seccion-fotos {
+            display: none;
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s;
         }
 
         .photos {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             justify-content: center;
-            margin: 30px 0;
+            flex-wrap: wrap;
+            margin-top: 20px;
         }
 
         .photo-frame {
-            width: 160px;
-            height: 160px;
-            border: 6px solid white;
-            border-radius: 15px;
-            object-fit: cover;
+            width: 200px;
+            border: 10px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transform: rotate(-3deg);
-            transition: 0.5s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .photo-frame:nth-child(2) { transform: rotate(4deg); }
-        .photo-frame:hover { transform: scale(1.15) rotate(0deg); z-index: 11; }
-
-        button {
-            background: linear-gradient(45deg, #800080, #ff007f); /* Morado a Rosa */
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            font-size: 1.3em;
-            border-radius: 50px;
-            cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 6px 20px rgba(128,0,128,0.4);
-            font-weight: bold;
+        }
+        .photo-frame:nth-child(2) { transform: rotate(3deg); }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        button:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.6);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .click-me {
+            color: var(--color-morado);
+            font-weight: bold;
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
 
-    <div class="background-scene">
-        <div class="tree">
-            <div class="swing"></div>
+    <div class="snoopy-bg"></div>
+
+    <header>
+        <h1>¡Feliz Cumpleaños Montserrath! ❤️</h1>
+        <p class="click-me">Toca el sobre para abrir tu regalo</p>
+    </header>
+
+    <div class="envelope-wrapper" onclick="abrirCarta()">
+        <div class="envelope">
+            <div class="letter">
+                <p><strong>De: Lalo</strong></p>
+                <p style="margin-top: 10px;">Eres la persona más especial del mundo. Gracias por estar conmigo.</p>
+                <p style="color: red; font-weight: bold; margin-top: 10px;">¡Te amo mucho chiflada! ❤️</p>
+            </div>
         </div>
     </div>
-    
-    <div class="fireflies">
-        <div class="firefly"></div><div class="firefly"></div>
-        <div class="firefly"></div><div class="firefly"></div>
-        <div class="firefly"></div><div class="firefly"></div>
-        <div class="firefly"></div><div class="firefly"></div>
-        <div class="firefly"></div><div class="firefly"></div>
-    </div>
 
-    <div class="container">
-        <h1>¡Feliz Cumpleaños Montserrath! 🎂</h1>
-        
+    <div id="seccion-fotos">
+        <h2 style="color: var(--color-morado);">Nuestros Momentos</h2>
         <div class="photos">
-            <img src="foto1.jpeg" alt="Montse 1" class="photo-frame">
-            <img src="foto2.jpeg" alt="Montse 2" class="photo-frame">
+            <img src="foto1.jpeg" class="photo-frame">
+            <img src="foto2.jpeg" class="photo-frame">
         </div>
-
-        <p id="mensaje-sorpresa" class="chiflada" style="display: none;"></p>
-        <button id="btn-sorpresa" onclick="lanzarSorpresa()">¿Un mensaje para ti?</button>
+        <p style="margin-top: 30px; font-size: 1.2em;">Que cumplas muchísimos más, Montse. 🎂🐾</p>
     </div>
 
     <script>
-        function lanzarSorpresa() {
-            // Lluvia de confeti personalizada con sus colores
-            confetti({
-                particleCount: 180,
-                spread: 80,
-                origin: { y: 0.6 },
-                colors: ['#ff007f', '#800080', '#ff4d4d', '#ffffff']
-            });
+        function abrirCarta() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            const fotos = document.getElementById('seccion-fotos');
+            
+            if (!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+                
+                // Confetti de Snoopy (blanco, rojo, rosa)
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ffffff', '#ff0000', '#ffb6c1']
+                });
 
-            // Mostrar el mensaje
-            const msg = document.getElementById('mensaje-sorpresa');
-            const btn = document.getElementById('btn-sorpresa');
-            msg.innerText = "Te amo mucho chiflada ❤️";
-            msg.style.display = "block";
-            btn.style.display = "none"; // Ocultar el botón después de usarlo
+                // Esperar un poco para mostrar las fotos
+                setTimeout(() => {
+                    fotos.style.display = 'block';
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 1000);
+            }
         }
     </script>
 </body>
