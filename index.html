@@ -11,8 +11,8 @@
             padding: 0;
             /* USAMOS TU IMAGEN DE SNOOPY LOCAL */
 background-image: url('foto3.png');
-            background-size: cover;
-            background-position: center;
+background-size: cover; /* Cubre toda la pantalla */
+    background-position: center center;
             background-attachment: fixed;
             font-family: 'Comic Sans MS', cursive, sans-serif;
             display: flex;
@@ -120,20 +120,23 @@ background-image: url('foto3.png');
             animation: fadeIn 1s;
         }
 
-        .photos {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+.photos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite que la foto 2 baje si no hay espacio */
+    gap: 15px;
+    padding: 10px;
+}
 
-        .photo-frame {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border: 8px solid #ffb6c1;
-            transform: rotate(-3deg);
-        }
+.photo-frame {
+    width: 85%; /* En celular ocupará casi todo el ancho */
+    max-width: 250px; /* Pero no crecerá demasiado */
+    height: auto;
+    object-fit: cover;
+    border: 8px solid #ffb6c1;
+    border-radius: 10px;
+}
+
         .photo-frame:nth-child(2) { transform: rotate(3deg); }
 
         .btn-abrir {
