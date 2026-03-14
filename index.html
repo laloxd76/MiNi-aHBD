@@ -6,158 +6,133 @@
     <title>Para Montserrath ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --color-principal: #ffb6c1;
-            --color-acento: #ff4d4d;
-            --color-morado: #9370db;
-        }
-
         body {
             margin: 0;
-            /* COLLAGE DE SNOOPY DE FONDO */
-            background-image: url('https://i.pinimg.com/originals/f3/9d/f7/f39df7538964d3999491694f420e6e73.jpg');
+            /* COLLAGE DE SNOOPY - LINK DIRECTO */
+            background-image: url('https://wallpapercave.com/wp/wp5032549.jpg');
             background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             font-family: 'Comic Sans MS', cursive, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Capa para que el collage no brille tanto y se lea el texto */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 240, 245, 0.7); 
-            z-index: -1;
+            background: rgba(255, 255, 255, 0.4); /* Filtro para ver el collage pero leer bien */
+            z-index: 0;
         }
 
-        header {
-            margin-top: 30px;
-            text-align: center;
-            z-index: 1;
+        header, .envelope-wrapper, #seccion-fotos {
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
-            color: var(--color-acento);
-            font-size: 2.2em;
-            text-shadow: 2px 2px white;
-            padding: 0 10px;
+            color: #ff4d4d;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
         }
 
-        /* EL SOBRE DE LA CARTA */
+        /* EL SOBRE - CORREGIDO */
         .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            margin: 60px 0;
-            z-index: 5;
+            margin: 100px 0 50px 0;
         }
 
         .envelope {
             position: relative;
-            width: 280px;
-            height: 180px;
+            width: 300px;
+            height: 200px;
             background: #f08080;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden; /* ESTO ESCONDE LA CARTA ADENTRO */
         }
 
         /* Tapa del sobre */
-        .envelope::before {
-            content: '';
+        .flap {
             position: absolute;
-            top: 0;
+            top: -100px; /* Ajuste para que tape bien */
+            left: 0;
             width: 0;
             height: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-top: 100px solid #ff9999;
-            transform-origin: top;
-            transition: transform 0.6s;
-            z-index: 4;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #ff9999;
+            z-index: 5;
+            transition: transform 0.6s, z-index 0.6s;
+            transform-origin: bottom;
         }
 
         .letter {
             position: absolute;
-            bottom: 5px;
-            left: 10px;
+            bottom: -150px; /* Escondida abajo */
+            left: 20px;
             width: 260px;
-            height: 160px; /* Tamaño fijo inicial */
+            height: 160px;
             background: white;
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            transition: transform 0.6s, height 0.6s;
-            z-index: 2;
             border-radius: 5px;
-            overflow: hidden; /* Para que el texto no se salga antes de abrir */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            transition: transform 0.8s;
+            z-index: 2;
         }
 
-        .letter p {
-            font-size: 0.95em;
-            color: #333;
-            margin: 5px 0;
-            line-height: 1.2;
-        }
-
-        /* Abrir carta */
-        .envelope-wrapper.open .envelope::before {
+        /* Animación de apertura */
+        .envelope-wrapper.open .flap {
             transform: rotateX(180deg);
-            z-index: 1; /* Pasa atrás de la carta */
+            z-index: 1; /* Pasa atrás al abrir */
         }
+
         .envelope-wrapper.open .letter {
-            transform: translateY(-120px);
-            height: 200px; /* Crece un poco al salir */
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            overflow: visible;
+            transform: translateY(-200px); /* Sube la carta */
+        }
+
+        .envelope-wrapper.open .envelope {
+            overflow: visible; /* Deja que la carta salga */
         }
 
         /* SECCIÓN FOTOS */
         #seccion-fotos {
             display: none;
             text-align: center;
-            margin-bottom: 50px;
+            background: white;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
             border-radius: 20px;
+            margin-bottom: 50px;
             width: 90%;
-            max-width: 500px;
-        }
-
-        .photos {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            max-width: 450px;
         }
 
         .photo-frame {
             width: 180px;
             height: 180px;
             object-fit: cover;
-            border: 8px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 8px solid #ffb6c1;
+            margin: 10px;
             transform: rotate(-3deg);
         }
-        .photo-frame:nth-child(2) { transform: rotate(3deg); }
 
-        .click-me {
-            color: var(--color-morado);
-            font-weight: bold;
-            background: white;
-            padding: 5px 15px;
+        .btn-abrir {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
             border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -166,29 +141,28 @@
     <div class="overlay"></div>
 
     <header>
-        <h1>¡Feliz Cumpleaños Montserrath! ❤️</h1>
-        <p class="click-me">Toca el sobre para abrirlo</p>
+        <h1>¡Feliz Cumple Montserrath!</h1>
+        <button class="btn-abrir" onclick="abrirCarta()">Toca para abrir tu sorpresa</button>
     </header>
 
-    <div class="envelope-wrapper" onclick="abrirCarta()">
+    <div class="envelope-wrapper">
+        <div class="flap"></div>
         <div class="envelope">
             <div class="letter">
-                <p><strong>De: Tu Lalo</strong></p>
-                <p>Eres la persona más especial del mundo. Gracias por ser mi felicidad.</p>
+                <p><strong>De: Tu niño lalo</strong></p>
+                <p>Eres la persona más especial del mundo.</p>
                 <p style="color: red; font-weight: bold;">¡Te amo mucho chiflada! ❤️</p>
             </div>
         </div>
     </div>
 
     <div id="seccion-fotos">
-        <h2 style="color: var(--color-acento);">Te amo corazón de melón</h2>
+        <h2 style="color: #ff4d4d;">Te amo corazón de melón</h2>
         <div class="photos">
             <img src="foto1.jpeg" class="photo-frame">
             <img src="foto2.jpeg" class="photo-frame">
         </div>
-        <p style="margin-top: 30px; font-size: 1.1em; color: #333;">
-            Que cumplas muchísimos más, <strong>mi niña hermosa</strong>. 🎂🐾
-        </p>
+        <p>Que cumplas muchísimos más, <strong>mi niña hermosa</strong>. 🎂</p>
     </div>
 
     <script>
@@ -196,22 +170,19 @@
             const wrapper = document.querySelector('.envelope-wrapper');
             const fotos = document.getElementById('seccion-fotos');
             
-            if (!wrapper.classList.contains('open')) {
-                wrapper.classList.add('open');
-                
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#ffffff', '#ff0000', '#ffb6c1']
-                });
+            wrapper.classList.add('open');
+            
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffffff', '#ff0000', '#ffb6c1']
+            });
 
-                setTimeout(() => {
-                    fotos.style.display = 'block';
-                    // Scroll suave hacia abajo para ver las fotos
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                }, 1000);
-            }
+            setTimeout(() => {
+                fotos.style.display = 'block';
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 1000);
         }
     </script>
 </body>
