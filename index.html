@@ -7,14 +7,17 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --color-principal: #ffb6c1; /* Rosa pastel Snoopy */
+            --color-principal: #ffb6c1;
             --color-acento: #ff4d4d;
             --color-morado: #9370db;
         }
 
         body {
             margin: 0;
-            background: #fff0f5; /* Fondo rosado muy claro */
+            /* COLLAGE DE SNOOPY DE FONDO */
+            background-image: url('https://i.pinimg.com/originals/f3/9d/f7/f39df7538964d3999491694f420e6e73.jpg');
+            background-size: cover;
+            background-attachment: fixed;
             font-family: 'Comic Sans MS', cursive, sans-serif;
             display: flex;
             flex-direction: column;
@@ -23,102 +26,112 @@
             overflow-x: hidden;
         }
 
-        /* FONDO DE SNOOPY (Imágenes flotantes sutiles) */
-        .snoopy-bg {
+        /* Capa para que el collage no brille tanto y se lea el texto */
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            background: rgba(255, 240, 245, 0.7); 
             z-index: -1;
-            opacity: 0.2;
-            background-image: url('https://www.pngarts.com/files/11/Snoopy-Download-Transparent-PNG-Image.png');
-            background-size: 200px;
-            background-repeat: space;
         }
 
         header {
             margin-top: 30px;
             text-align: center;
-            animation: bounce 2s infinite;
+            z-index: 1;
         }
 
         h1 {
             color: var(--color-acento);
-            font-size: 2.5em;
+            font-size: 2.2em;
             text-shadow: 2px 2px white;
+            padding: 0 10px;
         }
 
         /* EL SOBRE DE LA CARTA */
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
-            margin: 50px 0;
+            margin: 60px 0;
+            z-index: 5;
         }
 
         .envelope {
             position: relative;
-            width: 250px;
-            height: 150px;
+            width: 280px;
+            height: 180px;
             background: #f08080;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
+        /* Tapa del sobre */
         .envelope::before {
             content: '';
             position: absolute;
             top: 0;
             width: 0;
             height: 0;
-            border-left: 125px solid transparent;
-            border-right: 125px solid transparent;
-            border-top: 90px solid #ff9999;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #ff9999;
             transform-origin: top;
             transition: transform 0.6s;
-            z-index: 2;
+            z-index: 4;
         }
 
         .letter {
             position: absolute;
-            bottom: 0;
+            bottom: 5px;
             left: 10px;
-            width: 230px;
-            height: 130px;
+            width: 260px;
+            height: 160px; /* Tamaño fijo inicial */
             background: white;
-            padding: 15px;
+            padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            transition: transform 0.6s;
-            z-index: 1;
+            transition: transform 0.6s, height 0.6s;
+            z-index: 2;
             border-radius: 5px;
+            overflow: hidden; /* Para que el texto no se salga antes de abrir */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .letter p {
-            font-size: 0.9em;
+            font-size: 0.95em;
             color: #333;
-            margin: 0;
+            margin: 5px 0;
+            line-height: 1.2;
         }
 
         /* Abrir carta */
         .envelope-wrapper.open .envelope::before {
             transform: rotateX(180deg);
+            z-index: 1; /* Pasa atrás de la carta */
         }
         .envelope-wrapper.open .letter {
-            transform: translateY(-100px);
-            height: auto;
-            z-index: 3;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-120px);
+            height: 200px; /* Crece un poco al salir */
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: visible;
         }
 
-        /* CONTENEDOR DE FOTOS (Oculto al inicio) */
+        /* SECCIÓN FOTOS */
         #seccion-fotos {
             display: none;
             text-align: center;
             margin-bottom: 50px;
-            animation: fadeIn 1.5s;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
         }
 
         .photos {
@@ -130,57 +143,52 @@
         }
 
         .photo-frame {
-            width: 200px;
-            border: 10px solid white;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border: 8px solid white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transform: rotate(-3deg);
-            transition: 0.3s;
         }
         .photo-frame:nth-child(2) { transform: rotate(3deg); }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
 
         .click-me {
             color: var(--color-morado);
             font-weight: bold;
-            font-size: 1.1em;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="snoopy-bg"></div>
+    <div class="overlay"></div>
 
     <header>
         <h1>¡Feliz Cumpleaños Montserrath! ❤️</h1>
-        <p class="click-me">Toca el sobre para abrir tu regalo</p>
+        <p class="click-me">Toca el sobre para abrirlo</p>
     </header>
 
     <div class="envelope-wrapper" onclick="abrirCarta()">
         <div class="envelope">
             <div class="letter">
-                <p><strong>De: Lalo</strong></p>
-                <p style="margin-top: 10px;">Eres la persona más especial del mundo. Gracias por estar conmigo.</p>
-                <p style="color: red; font-weight: bold; margin-top: 10px;">¡Te amo mucho chiflada! ❤️</p>
+                <p><strong>De: Tu Lalo</strong></p>
+                <p>Eres la persona más especial del mundo. Gracias por ser mi felicidad.</p>
+                <p style="color: red; font-weight: bold;">¡Te amo mucho chiflada! ❤️</p>
             </div>
         </div>
     </div>
 
     <div id="seccion-fotos">
-        <h2 style="color: var(--color-morado);">Nuestros Momentos</h2>
+        <h2 style="color: var(--color-acento);">Te amo corazón de melón</h2>
         <div class="photos">
             <img src="foto1.jpeg" class="photo-frame">
             <img src="foto2.jpeg" class="photo-frame">
         </div>
-        <p style="margin-top: 30px; font-size: 1.2em;">Que cumplas muchísimos más, Montse. 🎂🐾</p>
+        <p style="margin-top: 30px; font-size: 1.1em; color: #333;">
+            Que cumplas muchísimos más, <strong>mi niña hermosa</strong>. 🎂🐾
+        </p>
     </div>
 
     <script>
@@ -191,7 +199,6 @@
             if (!wrapper.classList.contains('open')) {
                 wrapper.classList.add('open');
                 
-                // Confetti de Snoopy (blanco, rojo, rosa)
                 confetti({
                     particleCount: 150,
                     spread: 70,
@@ -199,9 +206,9 @@
                     colors: ['#ffffff', '#ff0000', '#ffb6c1']
                 });
 
-                // Esperar un poco para mostrar las fotos
                 setTimeout(() => {
                     fotos.style.display = 'block';
+                    // Scroll suave hacia abajo para ver las fotos
                     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 }, 1000);
             }
